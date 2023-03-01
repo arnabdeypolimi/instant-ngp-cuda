@@ -58,6 +58,7 @@ scenes_nerf = {
 	"chair"     : nerf_synthetic("chair", frameidx=52),
 	"hotdog"    : nerf_synthetic("hotdog", frameidx=52),
 	"materials" : nerf_synthetic("materials", frameidx=52),
+	"hand_v2_no_bg" : ours_real_converted("hand_v2_no_bg", frameidx=0),
 
 	# nerf real 360
 	"pinecone" : nerf_real_360("pinecone", frameidx=0),
