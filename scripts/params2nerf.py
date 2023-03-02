@@ -65,6 +65,7 @@ def sharpness(imagePath):
 
 names = glob(os.path.join(NAME, '*.png'))
 names.sort()
+names = names[::len(names)//53]
 
 out = {"frames": []}
 

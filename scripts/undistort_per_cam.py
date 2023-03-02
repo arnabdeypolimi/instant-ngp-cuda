@@ -11,8 +11,6 @@ jd = json.load(f)
 
 for i in range(len(jd['frames'])):
     print(jd['frames'][i]['file_path'])
-    path = jd['frames'][i]['file_path']
-    src = cv.imread(os.path.join(root, path), cv.IMREAD_UNCHANGED)
     fx = jd['frames'][i]['fl_x']
     fy = jd['frames'][i]['fl_y']
     cx = jd['frames'][i]['cx']
@@ -23,7 +21,15 @@ for i in range(len(jd['frames'])):
     p1 = jd['frames'][i]['p1']
     p2 = jd['frames'][i]['p2']
     dist = np.array([k1, k2, p1, p2])
-    dst = cv.undistort(src, pose, dist, None, None)
+    for j in range(0, 2, 1):
+        path = jd['frames'][i]['file_path']
+        cam, time = path.split('/')[-1].split('_')
+        time = int(time.split('.')[0])+j
+        print(root, cam, time)
+        src = cv.imread(os.path.join(root, "image", "segmented", f"{cam}_{time:04d}.png"), cv.IMREAD_UNCHANGED)
+        dst = cv.undistort(src, pose, dist, None, None)
+        cv.imwrite(os.path.join(".", root, "image", "undist", f"{cam}_{time:04d}.png"), dst)
+        print(os.path.join(".", root, "image", "undist", f"{cam}_{time:04d}.png"))
     # update pose
     new_pose = cv.getOptimalNewCameraMatrix(pose, dist, [1280, 720], alpha=1)
     jd['frames'][i]['fl_x'] = pose[0, 0]
@@ -37,8 +43,6 @@ for i in range(len(jd['frames'])):
     del jd['frames'][i]['p2']
     # update path
     jd['frames'][i]['file_path'] = os.path.join('image', 'undist', path.split('/')[-1])
-    cv.imwrite(os.path.join('.', root, 'image', 'undist', path.split('/')[-1]), dst)
-    print(os.path.join('.', root, 'image', 'undist', path.split('/')[-1]))
 
 print(f"writing {output}")
 with open(output, "w") as outfile:
