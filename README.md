@@ -1,3 +1,14 @@
+# This version is optimized for CCV 
+module required cmake/3.24.1, glew/2.1 and gcc/7.2
+python version 3.9
+
+set gcc version 
+```
+export CC=<path to gcc 7.2>
+export CXX=<path to g++>
+```
+
+
 # Instant Neural Graphics Primitives ![](https://github.com/NVlabs/instant-ngp/workflows/CI/badge.svg)
 
 <img src="docs/assets_readme/fox.gif" height="342"/> <img src="docs/assets_readme/robot5.gif" height="342"/>
