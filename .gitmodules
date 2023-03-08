@@ -31,3 +31,6 @@
 [submodule "dependencies/glm"]
 	path = dependencies/glm
 	url = https://github.com/g-truc/glm
+[submodule "brics-tools"]
+	path = brics-tools
+	url = https://github.com/brown-ivl/brics-tools.git
