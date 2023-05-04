@@ -57,6 +57,7 @@
 #  include <GLFW/glfw3.h>
 #  include <GLFW/glfw3native.h>
 #  include <cuda_gl_interop.h>
+#include <glm/gtx/string_cast.hpp>
 
 #endif
 
@@ -4722,12 +4723,17 @@ void Testbed::save_raw_volumes(const fs::path& path, int res_, float aabb_){
 	static bool flip_y_and_z_axes = false;
 	BoundingBox aabb = BoundingBox{vec3(0.0f), vec3(aabb_)};
 	//BoundingBox aabb = (m_testbed_mode == ETestbedMode::Nerf) ? m_render_aabb : m_aabb;
-
-	auto res3d = get_marching_cubes_res(res_, aabb);
+        tlog::success() << "aabb" << aabb << "'";
+	auto res3d = get_marching_cubes_res(res_, m_render_aabb);
 	auto effective_view_dir = flip_y_and_z_axes ? vec3{0.0f, 1.0f, 0.0f} : vec3{0.0f, 0.0f, 1.0f};
 	auto old_local = m_render_aabb_to_local;
 	auto old_aabb = m_render_aabb;
+	tlog::success() << "m_render_aabb_to_local" << glm::to_string(m_render_aabb_to_local) << "'";
 	m_render_aabb_to_local = mat3(1.0f);
+	m_aabb = m_render_aabb;
+	tlog::success() << "old_local" << glm::to_string(old_local) << "'";
+	tlog::success() << "old_aabb" << old_aabb << "'";
+	tlog::success() << "m_aabb" << m_aabb << "'";
 	auto dir = m_data_path / "volume_raw";
 	if (!dir.exists()){
 		fs::create_directory(dir);
@@ -4738,8 +4744,11 @@ void Testbed::save_raw_volumes(const fs::path& path, int res_, float aabb_){
 		GPUMemory<vec4> rgba = get_rgba_on_grid(res3d, effective_view_dir, true, 0.0f, true);
 		save_rgba_grid_to_raw_file(rgba, dir.str().c_str(), res3d, flip_y_and_z_axes, cascade);
 	}
+	tlog::success() << "res3d" << glm::to_string(res3d) << "'";
+	tlog::success() << "m_render_aabb" << m_render_aabb << "'";
 	m_render_aabb_to_local = old_local;
 	m_render_aabb = old_aabb;
+	
 	tlog::success() << "Saved raw '" << dir.str() << "'";
 }
 
