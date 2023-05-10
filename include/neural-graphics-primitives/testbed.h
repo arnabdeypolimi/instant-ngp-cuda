@@ -485,7 +485,7 @@ public:
 	vec2 fov_xy() const ;
 	void set_fov_xy(const vec2& val);
 	void save_snapshot(const fs::path& path, bool include_optimizer_state, bool compress);
-	void save_raw_volumes(const fs::path& path, int res_, float aabb_);
+	void save_raw_density_grid(const char* filename, ivec3 res3d = ivec3(128), vec3 aabb_min = vec3(0.0f), vec3 aabb_max = vec3(1.0f));
 	void load_snapshot(const fs::path& path);
 	CameraKeyframe copy_camera_to_keyframe() const;
 	void set_camera_from_keyframe(const CameraKeyframe& k);
